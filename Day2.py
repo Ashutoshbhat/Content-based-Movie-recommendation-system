@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import pickle
 import requests
-from streamlit_star_rating import st_star_rating
+from streamlit-star-rating-component import st_star_rating
 
 def fetch_poster(movie_id):
     response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=1277338b2607071c2fcef117cd53cf3e&language=en-US')
