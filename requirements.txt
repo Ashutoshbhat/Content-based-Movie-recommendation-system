@@ -1,1 +1,1 @@
-streamlit-star-rating
+streamlit_star_rating
