@@ -2,4 +2,4 @@ streamlit
 pandas
 requests
 pickle-mixin
-streamlit-star-rating-component
+streamlit_star_rating_component
