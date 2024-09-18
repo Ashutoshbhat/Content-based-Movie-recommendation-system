@@ -2,7 +2,6 @@ import pandas as pd
 import streamlit as st
 import pickle
 import requests
-from streamlit_star_rating_component import st_star_rating  # Import the alternative package
 
 def fetch_poster(movie_id):
     response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=1277338b2607071c2fcef117cd53cf3e&language=en-US')
@@ -67,10 +66,3 @@ for i in range(min(5, len(st.session_state.recommendations))):
     with cols[i]:
         st.text(st.session_state.recommendations[i])
         st.image(st.session_state.posters[i])
-
-# Rating section using the alternative package
-rating = st_star_rating(label="Review Us:", maxValue=5, defaultValue=0,)
-sentiment_mapping = ["one", "two", "three", "four", "five"]
-
-if rating:
-    st.markdown(f"You rated us {sentiment_mapping[rating - 1]} star(s).")
