@@ -63,7 +63,7 @@ st.markdown("""
     }
     .title {
         font-size: 50px !important;
-        color: white;
+        color: #FFFC4B;
         text-align: center;
         font-family: 'Arial', sans-serif;
         margin-bottom: 20px;
