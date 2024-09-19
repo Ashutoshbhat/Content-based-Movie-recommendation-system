@@ -4,5 +4,5 @@ pickle-mixin
 requests
 numpy  
 scikit-learn 
-st_star_rating
+
 
