@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import pickle
 import requests
-from streamlit_star_rating import st_star_rating
+
 
 a=st.secrets["API_KEY"]
 
@@ -72,8 +72,9 @@ for i in range(min(5, len(st.session_state.recommendations))):
         st.image(st.session_state.posters[i])
 
 
-rating = st_star_rating(label="Review Us:", maxValue=5, defaultValue=0,)
-sentiment_mapping = ["one", "two", "three", "four", "five"]
 
-if rating:
-    st.markdown(f"You rated us {sentiment_mapping[rating - 1]} star(s).")
+
+rating = st.slider('Rate this movie:', defaultValue=1, maxValue=5,)
+
+# Display the selected rating
+st.write(f'You rated: {rating} stars')
