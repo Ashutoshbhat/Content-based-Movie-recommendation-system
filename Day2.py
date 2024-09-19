@@ -50,11 +50,20 @@ with st.sidebar:
         </style>
         """, unsafe_allow_html=True)
 
+# Custom styles
 st.markdown("""
     <style>
+    .header {
+        font-size: 30px !important;
+        color: white;
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
     .title {
-        font-size: 40px !important;
-        color: #FF6347;
+        font-size: 50px !important;
+        color: white;
         text-align: center;
         font-family: 'Arial', sans-serif;
         margin-bottom: 20px;
@@ -63,6 +72,7 @@ st.markdown("""
         font-size: 20px !important;
         text-align: center;
         margin-bottom: 40px;
+        color: white;
     }
     </style>
     """, unsafe_allow_html=True)
