@@ -6,7 +6,8 @@ import requests
 # API key
 a = st.secrets["API_KEY"]
 
-@st.cache
+# Caching the fetch_poster function to reduce API calls
+@st.cache_data
 def fetch_poster(movie_id):
     try:
         response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={a}')
@@ -17,6 +18,8 @@ def fetch_poster(movie_id):
         st.error(f"Error fetching poster: {e}")
         return 'default_poster_url'  # Add a default poster URL or placeholder
 
+# Recommendation function with caching for optimization
+@st.cache_data
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
     distances = similarity[movie_index]
@@ -33,11 +36,14 @@ def recommend(movie):
     return recommend_movies, recommend_movies_posters
 
 # Load the movie data and similarity matrix
-movies_list = pickle.load(open('Day_1.pkl', 'rb'))
-movies = pd.DataFrame(movies_list)
-movies_list = movies['title'].values
+@st.cache_resource  # Cache the data loading as it's a heavy operation
+def load_data():
+    movies_list = pickle.load(open('Day_1.pkl', 'rb'))
+    movies = pd.DataFrame(movies_list)
+    similarity = pickle.load(open('similarity.pkl', 'rb'))
+    return movies, similarity, movies['title'].values
 
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+movies, similarity, movies_list = load_data()
 
 # Streamlit UI
 st.set_page_config(layout="wide")
@@ -80,7 +86,7 @@ st.markdown("""
     .header {
         font-size: 30px !important;
         color: white;
-        text-align: left;  /* Align header to the left */
+        text-align: left;
         font-family: 'Arial', sans-serif;
         margin-top: 20px;
         margin-bottom: 10px;
@@ -88,21 +94,22 @@ st.markdown("""
     .title {
         font-size: 50px !important;
         color: #FFFC4B;
-        text-align: left;  /* Align title to the left */
+        text-align: left;
         font-family: 'Arial', sans-serif;
         margin-bottom: 20px;
     }
     .subheader {
         font-size: 20px !important;
-        text-align: left;  /* Align subheader to the left */
+        text-align: left;
         margin-bottom: 40px;
         color: white;
     }
     </style>
     """, unsafe_allow_html=True)
 
+# Home page with movie recommendation functionality
 if option == "Home":
-    st.markdown('<h1 class="title">Movie Recommendation System </h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="title">Movie Recommendation System</h1>', unsafe_allow_html=True)
     st.markdown('<h2 class="subheader">Discover your favourite movie</h2>', unsafe_allow_html=True)
 
     # Initialize session state for recommendations and posters
@@ -126,4 +133,4 @@ if option == "Home":
                 st.text(st.session_state.recommendations[i])
                 st.image(st.session_state.posters[i], use_column_width=True)
     else:
-        st.write("What to Watch ?")
+        st.write("What to Watch?")
