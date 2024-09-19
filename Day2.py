@@ -3,11 +3,10 @@ import streamlit as st
 import pickle
 import requests
 
+# API key
+a = st.secrets["API_KEY"]
 
-
-a=st.secrets["API_KEY"]
-
-
+@st.cache
 def fetch_poster(movie_id):
     response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={a}')
     data = response.json()
@@ -37,20 +36,39 @@ similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 # Streamlit UI
 st.set_page_config(layout="wide")
+
+# Sidebar Menu
+with st.sidebar:
+    st.header("Menu")
+    st.selectbox("Select an Option", ["Home", "Recommendations", "About"])
+
+    st.markdown("""
+        <style>
+        .sidebar .sidebar-content {
+            background-color: #F4F4F4;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
 st.markdown("""
     <style>
-    .big-font {
-        font-size:50px !important;
-        color: #FF6347; 
+    .title {
+        font-size: 40px !important;
+        color: #FF6347;
+        text-align: center;
         font-family: 'Arial', sans-serif;
+        margin-bottom: 20px;
     }
-    .sidebar .sidebar-content {
-        background-color: #F4F4F4;
+    .subheader {
+        font-size: 20px !important;
+        text-align: center;
+        margin-bottom: 40px;
     }
     </style>
     """, unsafe_allow_html=True)
-st.title("Movie Recommendation System by Ashutosh Bhat")
-st.subheader("Discover your favourite movie")
+
+st.markdown('<h1 class="title">Movie Recommendation System by Ashutosh Bhat</h1>', unsafe_allow_html=True)
+st.markdown('<h2 class="subheader">Discover your favourite movie</h2>', unsafe_allow_html=True)
 
 # Initialize session state for recommendations and posters
 if 'recommendations' not in st.session_state:
@@ -66,11 +84,11 @@ if st.button('Recommend'):
     st.session_state.posters = posters
 
 # Display recommendations
-cols = st.columns(5)
-for i in range(min(5, len(st.session_state.recommendations))):
-    with cols[i]:
-        st.text(st.session_state.recommendations[i])
-        st.image(st.session_state.posters[i])
-
-
-
+if st.session_state.recommendations:
+    cols = st.columns(5)
+    for i in range(min(5, len(st.session_state.recommendations))):
+        with cols[i]:
+            st.text(st.session_state.recommendations[i])
+            st.image(st.session_state.posters[i], use_column_width=True)
+else:
+    st.write("No recommendations available.")
