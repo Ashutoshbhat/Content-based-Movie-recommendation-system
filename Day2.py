@@ -74,7 +74,7 @@ for i in range(min(5, len(st.session_state.recommendations))):
 
 
 
-rating = st.slider('Rate this movie:', defaultValue=1, maxValue=5,)
+rating = st.slider('Rate this movie:', min_value=1, max_value=5, value=1, step=1)
 
 # Display the selected rating
 st.write(f'You rated: {rating} stars')
