@@ -8,9 +8,14 @@ a = st.secrets["API_KEY"]
 
 @st.cache
 def fetch_poster(movie_id):
-    response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={a}')
-    data = response.json()
-    return 'http://image.tmdb.org/t/p/w500' + data['poster_path']
+    try:
+        response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={a}')
+        response.raise_for_status()
+        data = response.json()
+        return 'http://image.tmdb.org/t/p/w500' + data['poster_path']
+    except requests.RequestException as e:
+        st.error(f"Error fetching poster: {e}")
+        return 'default_poster_url'  # Add a default poster URL or placeholder
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
@@ -56,7 +61,7 @@ st.markdown("""
     .header {
         font-size: 30px !important;
         color: white;
-        text-align: center;
+        text-align: left;  /* Align header to the left */
         font-family: 'Arial', sans-serif;
         margin-top: 20px;
         margin-bottom: 10px;
@@ -64,13 +69,13 @@ st.markdown("""
     .title {
         font-size: 50px !important;
         color: #FFFC4B;
-        text-align: center;
+        text-align: left;  /* Align title to the left */
         font-family: 'Arial', sans-serif;
         margin-bottom: 20px;
     }
     .subheader {
         font-size: 20px !important;
-        text-align: center;
+        text-align: left;  /* Align subheader to the left */
         margin-bottom: 40px;
         color: white;
     }
