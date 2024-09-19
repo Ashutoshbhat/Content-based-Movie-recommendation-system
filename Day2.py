@@ -106,4 +106,4 @@ if st.session_state.recommendations:
             st.text(st.session_state.recommendations[i])
             st.image(st.session_state.posters[i], use_column_width=True)
 else:
-    st.write("Search for Recommendations.")
+    st.write("What to Watch ?")
