@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import pickle
 import requests
-from streamlit_star_rating import st_star_rating
+import st_star_rating
 
 
 a=st.secrets["API_KEY"]
