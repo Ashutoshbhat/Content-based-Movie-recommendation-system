@@ -40,7 +40,7 @@ st.set_page_config(layout="wide")
 # Sidebar Menu
 with st.sidebar:
     st.header("Menu")
-    st.selectbox("Select an Option", ["Home", "Recommendations", "About"])
+    st.selectbox("Select an Option", ["Home", "About"])
 
     st.markdown("""
         <style>
@@ -77,7 +77,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.markdown('<h1 class="title">Movie Recommendation System by Ashutosh Bhat</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="title">Movie Recommendation System </h1>', unsafe_allow_html=True)
 st.markdown('<h2 class="subheader">Discover your favourite movie</h2>', unsafe_allow_html=True)
 
 # Initialize session state for recommendations and posters
