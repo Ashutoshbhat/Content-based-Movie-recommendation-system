@@ -1,6 +1,7 @@
 streamlit
 pandas
-requests
-gdown
 pickle-mixin
+requests
+numpy  
+scikit-learn
 
