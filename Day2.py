@@ -2,23 +2,9 @@ import pandas as pd
 import streamlit as st
 import pickle
 import requests
-import gdown  # New import to handle Google Drive downloads
 
 # API key
 a = st.secrets["API_KEY"]
-
-# Google Drive file ID (from your provided link)
-file_id = '11ieHuyxqL3bvoocI37M4XEATLuKvinGs'
-
-# Function to download similarity.pkl from Google Drive
-@st.cache_resource  # Cache the download and loading process
-def download_similarity():
-    url = f'https://drive.google.com/uc?id={file_id}'
-    output = 'similarity.pkl'
-    gdown.download(url, output, quiet=False)
-    with open(output, 'rb') as f:
-        similarity = pickle.load(f)
-    return similarity
 
 # Caching the fetch_poster function to reduce API calls
 @st.cache_data
@@ -54,7 +40,7 @@ def recommend(movie):
 def load_data():
     movies_list = pickle.load(open('Day_1.pkl', 'rb'))
     movies = pd.DataFrame(movies_list)
-    similarity = download_similarity()  # Download similarity.pkl from Google Drive
+    similarity = pickle.load(open('similarity.pkl', 'rb'))
     return movies, similarity, movies['title'].values
 
 movies, similarity, movies_list = load_data()
